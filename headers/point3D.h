@@ -1,26 +1,24 @@
 #pragma once
-class point3D
+
+class Point3D
 {
 public:
-    point3D();
+    Point3D();
+    Point3D(double x, double y, double z);
+    ~Point3D()=default;
 
-    point3D(double x, double y, double z);
+    double X() const;
+    double Y() const;
+    double Z() const;
 
-    ~point3D();
+    void setX(double x);
+    void setY(double y);
+    void setZ(double z);
 
-    void sX(double x);
-    void sY(double Y);
-    void sZ(double z);
+    bool operator==(const Point3D &other) const;
+    bool operator<(const Point3D &other) const;
 
-    void print(point3D a);
-
-
-    double x();
-
-    double y();
-    double z();
-
-private:
+protected:
     double mX;
     double mY;
     double mZ;

@@ -1,45 +1,48 @@
+#include "../headers/Point3D.h"
 
-#include "../headers/point3D.h"
-#include <iostream>
+Point3D::Point3D() : mX(0), mY(0), mZ(0) {}
 
-using namespace std;
-point3D :: point3D ()
+Point3D::Point3D(double x, double y, double z) : mX(x), mY(y), mZ(z) {}
+
+double Point3D::X() const
 {
-    
-}
-point3D ::point3D(double x, double y, double z)
-{
-    mX = x;
-    mY = y;
-    mZ = z;
+    return this->mX;
 }
 
-point3D ::~point3D()
+double Point3D::Y() const
 {
+    return this->mY;
 }
 
-void point3D::sX(double x)
+double Point3D::Z() const
 {
-    mX = x;
-}
-void point3D::sY(double y)
-{
-    mY = y;
-}
-void point3D ::sZ(double z)
-{
-    mZ = z;
+    return this->mZ;
 }
 
-double point3D :: x()
+void Point3D::setX(double x)
 {
-    return mX;
+    this->mX = x;
 }
-double point3D :: y()
+void Point3D::setY(double y)
 {
-    return mY;
+    this->mY = y;
 }
-double point3D :: z()
+
+void Point3D::setZ(double z)
 {
-    return mZ;
+    this->mZ = z;
+}
+
+bool Point3D::operator<(const Point3D &other) const
+{
+    if (this->mX < other.mX) return true;
+    if (this->mX > other.mX) return false;
+    if (this->mY < other.mY) return true;
+    if (this->mY > other.mY) return false;
+    return this->mZ < other.mZ;
+}
+
+bool Point3D::operator==(const Point3D &other) const
+{
+    return (this->mX == other.mX) && (this->mY == other.mY) && (this->mZ == other.mZ);
 }

@@ -1,209 +1,412 @@
 #include <iostream>
-#include <fstream>
-#include "headers/point3D.h"
-#include "headers/geomVector.h"
-using namespace std;
-
-point3D inputPoint(const string &prompt)
-{
-    double x, y, z;
-    cout << prompt << endl;
-    cout << "Enter x coordinate: ";
-    cin >> x;
-    cout << "Enter y coordinate: ";
-    cin >> y;
-    cout << "Enter z coordinate: ";
-    cin >> z;
-    return point3D(x, y, z);
-}
-
+#include <vector>
+#include <string>
+#include "./headers/GeomVector.h"
+#include "./headers/Writer.h"
+#include "./headers/Matrix.h"
+#include "./headers/Plane.h"
+#include 
 int main()
 {
-    geomVector vectorCalculator; // Create an instance of geomVector
-
     int choice;
-    cout << "Enter your choice:" << endl;
-    cout << "1. Dot Product" << endl;
-    cout << "2. Cross Product" << endl;
-    cout << "3. Vector Magnitude" << endl;
-    cout << "4. Vector Normalized" << endl;
-    cout << "5. Is Equal" << endl;
-    cout << "6. Add Scalar" << endl;
-    cout << "7. Vector Scalar Multiplication" << endl;
-    cout << "8. Angle Between Vectors" << endl;
-    cout << "9. Distance Between Vectors" << endl;
-    cout << "10. Subtract Scalar" << endl;
-    cout << "11. Vector Scalar Division" << endl;
-    cout << "12. Angle Between Plane and Vector" << endl;
-    cout << "13. Direction Cosines" << endl;
-
-    cin >> choice;
-
-    point3D v1, v2, v3, v4;
-
-    ofstream first("vector1.txt");
-
-    ofstream second("vector2.txt");
-
-    ofstream out("output.txt");
-
-    // Take input for the vector points
-    //cout << "Enter coordinates for vector 1:" << endl;
-
-    switch (choice)
+    double x, x1;
+    double y, y1;
+    double z, z1;
+    
+    while (1)
     {
-    case 1:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        cout << "Enter coordinates for vector 3:" << endl;
-        v3 = inputPoint("Vector 3");
-        cout << "Enter coordinates for vector 4:" << endl;
-        v4 = inputPoint("Vector 4");
+        std::cout << "1. Check if two vectors are equal" << std::endl
+                  << "2. Find magnitude of vector" << std::endl
+                  << "3. Find normalized vector" << std::endl
+                  << "4. Set new Vector-Length" << std::endl
+                  << "5. Add Scalar Value to Vector" << std::endl
+                  << "6. Subtract scalar value from vector" << std::endl
+                  << "7. Multiply Vector by Scalar Value" << std::endl
+                  << "8. Divide Vector by a Scalar Value" << std::endl
+                  << "9. Add two Vectors" << std::endl
+                  << "10. Dot-Product of two Vectors" << std::endl
+                  << "11. Cross-Product of two Vectors" << std::endl
+                  << "12. Find Direction Cosines of a Vector" << std::endl
+                  << "13. Multiply Vector with Matrix" << std::endl
+                  << "14. Find Distance between two Vectors" << std::endl
+                  << "15. Find Distance between Vector and Plane" << std::endl
+                  << "16. Find Angle between two Vectors" << std::endl
+                  << "17. Find Angle between Vector and Plane" << std::endl
+                  << "18. Find Projection on Vector" << std::endl
+                  << "19. Find Projection on Plane " << std::endl
+                  << "20. Angle between Vector and Axis" << std::endl
+                  << "21. Exit" << std::endl;
 
-        cout << "Dot Product: " << vectorCalculator.dotProduct(v1, v2, v3, v4) << endl;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+        {
+            std::cout << "Enter value for x, y and z" << std::endl;
+            std::cin >> x >> y >> z;
+            std::cout << "Enter value for x, y and z" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector a(x, y, z);
+            GeomVector b(x1, y1, z1);
+            if (a == b)
+            {
+                std::cout << "Two vectors are equal." << std::endl;
+            }
+            else
+            {
+                std::cout << "Two vectors are not equal." << std::endl;
+            }
+        }
         break;
-    }
 
-    case 2:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        cout << "Enter coordinates for vector 3:" << endl;
-        v3 = inputPoint("Vector 3");
-        cout << "Enter coordinates for vector 4:" << endl;
-        v4 = inputPoint("Vector 4");
-        second << v3.x() << " " << v3.y() << " " << v3.z() << " " << v4.x() << " " << v4.y() << " " << v4.z() << " " << endl;
-        point3D ans = vectorCalculator.crossProduct(v1, v2, v3, v4);
-        out << ans.x() << " " << ans.y() << " " << ans.z() << " " << 0 << " " << 0 << " " << 0 << " " << endl;
+        case 2:
+        {
+            std::cout << "Enter value for x, y and z" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+            std::cout << "Magnitude of two vector is " << a.getMagnitude() << std::endl;
+        }
         break;
-    }
 
-    case 3:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        cout << "Vector Magnitude: " << vectorCalculator.vectorMagnitude(v1, v2) << endl;
+        case 3:
+        {
+            std::cout << "Enter value for x, y and z" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            
+            GeomVector result = a.getNormalized();
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 4:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        point3D ans = vectorCalculator.vectorNormalized(v1, v2);
-      out << ans.x() << " " << ans.y() << " " << ans.z() << " " << 0 << " " << 0 << " " << 0 << " " << endl;
+        case 4:
+        {
+            int newLength;
+            std::cout << "Enter value for x, y and z" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+
+            std::cout << "Enter new length " << std::endl;
+            std::cin >> newLength;
+            GeomVector result = a.setVectorLength(newLength);
+
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
+
+        case 5:
+        {
+            int scalarValue;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter integer value" << std::endl;
+            std::cin >> scalarValue;
+
+            GeomVector result = a.addScalar(scalarValue);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 5:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        cout << "Enter coordinates for vector 3:" << endl;
-        v3 = inputPoint("Vector 3");
-        cout << "Enter coordinates for vector 4:" << endl;
-        v4 = inputPoint("Vector 4");
-        second << v3.x() << " " << v3.y() << " " << v3.z() << " " << v4.x() << " " << v4.y() << " " << v4.z() << " " << endl;
-        cout << "Is Equal: " << (vectorCalculator.isEqual(v1, v2, v3, v4) ? "true" : "false") << endl;
+        case 6:
+        {
+            int scalarValue;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter integer value" << std::endl;
+            std::cin >> scalarValue;
+
+            GeomVector result = a.subtractScalar(scalarValue);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
+        case 7:
+        {
+            int scalarValue;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
 
-    case 6:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        point3D ans = vectorCalculator.addScalar(v1, v2, 5);
-       out << ans.x() << " " << ans.y() << " " << ans.z() << " " << 0 << " " << 0 << " " << 0 << " " << endl;// Change 5 to the desired scalar value
+            std::cout << "Enter integer value" << std::endl;
+            std::cin >> scalarValue;
+
+            GeomVector result = a.multiplyScalar(scalarValue);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 7:
-    {
-        cout << "Enter coordinates for vector 1:" << endl;
-        v1 = inputPoint("Vector 1");
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        point3D ans = vectorCalculator.vectorScalarMultiplication(v1, v2, 5);
-        out << ans.x() << " " << ans.y() << " " << ans.z() << " " << 0 << " " << 0 << " " << 0 << " " << endl; // Change 5 to the desired scalar value
+        case 8:
+        {
+            int scalarValue;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter integer value" << std::endl;
+            std::cin >> scalarValue;
+
+            GeomVector result = a.divideScalar(scalarValue);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
-    case 8:
-    {
-        cout << "Angle Between Vectors: " << vectorCalculator.angleBetweenVectors(v1, v2, v3, v4) << endl;
+
+        case 9:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector b(x1, y1, z1);
+
+            GeomVector result = a + b;
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(b);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 9:
-    {
-        cout << "Distance Between Vectors: " << vectorCalculator.distanceBetweenVectors(v1, v2, v3, v4) << endl;
+        case 10:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector b(x1, y1, z1);
+
+            double result = a.getDotProduct(b);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(b);
+            std::cout << "dot product is " << result << std::endl;
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 10:
-    {
-        v1 = inputPoint("Vector 1");
+        case 11:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
 
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        point3D ans = vectorCalculator.subtractScalar(v1, v2, 5);
-        out << ans.x() << " " << ans.y() << " " << ans.z() << " " << 0 << " " << 0 << " " << 0 << " " << endl;// Change 5 to the desired scalar value
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector b(x1, y1, z1);
+
+            GeomVector result = a.getCrossProduct(b);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(b);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 11:
-    {
-         v1 = inputPoint("Vector 1");
-
-        cout << "Enter coordinates for vector 2:" << endl;
-        v2 = inputPoint("Vector 2");
-        first << v1.x() << " " << v1.y() << " " << v1.z() << " " << v2.x() << " " << v2.y() << " " << v2.z() << " " << endl;
-        cout << "Enter coordinates for vector 3:" << endl;
-        v3 = inputPoint("Vector 3");
-
-        cout << "Enter coordinates for vector 4:" << endl;
-        v4 = inputPoint("Vector 4");
-        second << v3.x() << " " << v3.y() << " " << v3.z() << " " << v4.x() << " " << v4.y() << " " << v4.z() << " " << endl;
-        point3D ans = vectorCalculator.vectorScalarDivision(v1, v2, v3, v4, 5);
-       out << ans.x() << " " << ans.y() << " " << ans.z() << " " << 0 << " " << 0 << " " << 0 << " " << endl;// Change 5 to the desired scalar value
+        case 12:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+            a.directionCosines();
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+        }
         break;
-    }
 
-    case 12:
-    {
-        cout << "Angle Between Plane and Vector: " << vectorCalculator.angleBetweenPlaneandVector(plane(), v1, v2) << endl;
+        case 13:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            double s, b, c, d, e, f, g, h, i;
+            std::cout << "Enter the elements of the 3 x 3 matrix: ";
+            std::cin >> s >> b >> c >> d >> e >> f >> g >> h >> i;
+            Matrix matrix(s, b, c, d, e, f, g, h, i);
+
+            GeomVector result = a.multiplyMatrix(matrix);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
         break;
-    }
 
-    case 13:
-    {
-        vectorCalculator.directionCosines(v1, v2, v3, v4);
+        case 14:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x,y and z value for vector2" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector b(x1, y1, z1);
+
+            double result = a.getDistanceBetweenVectors(b);
+            std::cout << "Distance between two vectors is " << result << std::endl;
+        }
         break;
-    }
 
-    default:
-        cout << "Invalid choice" << endl;
+        case 15:
+        {
+            double x2;
+            double y2;
+            double z2;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x,y and z value for normal" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector normal(x1, y1, z1);
+
+            std::cout << "Enter 3 coordinates for point" << std::endl;
+            std::cin >> x2 >> y2 >> z2;
+            Point3D point(x2, y2, z2);
+
+            Plane plane(normal, point);
+            double result = a.getDistanceBetweenVectorAndPlane(plane);
+            std::cout << "Distance between vector and plane is " << result << std::endl;
+        }
+        break;
+
+        case 16:
+        {
+
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x,y and z value for normal" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector b(x1, y1, z1);
+
+            double result = a.getAngleBetweenVectors(b);
+            std::cout << "Angle between two vectors is " << result << std::endl;
+        }
+        break;
+
+        case 17:
+        {
+            double x2;
+            double y2;
+            double z2;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x,y and z value for normal" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector normal(x1, y1, z1);
+
+            std::cout << "Enter 3 coordinates for point" << std::endl;
+            std::cin >> x2 >> y2 >> z2;
+            Point3D point(x2, y2, z2);
+
+            Plane plane(normal, point);
+            double result = a.getAngleBetweenVectorAndPlane(plane);
+            std::cout << "angle between vector and plane is " << result << std::endl;
+        }
+        break;
+
+        case 18:
+        {
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x,y and z value for normal" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector b(x1, y1, z1);
+
+            GeomVector result = a.projectionOnVector(b);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(b);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
+        break;
+
+        case 19:
+        {
+            double x2;
+            double y2;
+            double z2;
+            std::cout << "Enter x, y and z value for vector1" << std::endl;
+            std::cin >> x >> y >> z;
+            GeomVector a(x, y, z);
+
+            std::cout << "Enter x,y and z value for normal" << std::endl;
+            std::cin >> x1 >> y1 >> z1;
+            GeomVector normal(x1, y1, z1);
+
+            GeomVector result = a.projectVectorOnPlane(a, normal);
+            std::vector<GeomVector> vectors;
+            vectors.push_back(a);
+            vectors.push_back(normal);
+            vectors.push_back(result);
+            Writer writer;
+            std::string filepath = "resources/output.txt";
+            writer.write(filepath, vectors);
+        }
+
+        case 21: // Exit case
+            break;
+
+        default:
+            std::cout << "Invalid choice. Please try again." << std::endl;
+            break;
+        }
     }
 
     return 0;
 }
-

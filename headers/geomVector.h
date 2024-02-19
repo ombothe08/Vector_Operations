@@ -1,73 +1,43 @@
 #pragma once
-#include "point3D.h"
-#include "plane.h"
-
-class geomVector
+#include <cmath>
+#include "Point3D.h"
+#include "Matrix.h"
+#include "Plane.h"
+class GeomVector : public Point3D
 {
 public:
-    geomVector ();
-    geomVector(point3D v1, point3D v2,point3D v3 , point3D v4);
-    ~geomVector();
+    GeomVector();
+    GeomVector(double x, double y, double z);
+    ~GeomVector();
 
-    void print(point3D a);
-
-    void sVectoV1(point3D v1);
-
-    void sVectoV2(point3D v2);
-
-    void sVectoV3(point3D v3);
-
-    void sVectoV4(point3D v4);
-
-    point3D vector1();
-    point3D vector2();
-    point3D vector3();
-    point3D vector4();
     
-    void calculateVectorComponents(point3D v1, point3D v2, point3D v3, point3D v4);
+    double getMagnitude() const;
+    GeomVector getNormalized() const;
+    double getDotProduct(const GeomVector &other) const;
+    GeomVector getCrossProduct(const GeomVector &other) const;
+    // Comparison operator to check equality between two vectors
+    bool operator==(const GeomVector &other) const;
 
-    void vectorsFormed(point3D v1, point3D v2,point3D v3 , point3D v4);
+    // Overloaded arithmetic operators for vector addition, subtraction,multiplication, and division with another GeomVector.
+    GeomVector operator+(const GeomVector &other) const;
+    GeomVector operator-(const GeomVector &other) const;
+    GeomVector operator*(const GeomVector &other) const;
+    GeomVector operator/(const GeomVector &other) const;
+    GeomVector setVectorLength(double newLength) const;
 
-    double dotProduct(point3D v1, point3D v2,point3D v3 , point3D v4);
+    GeomVector addScalar(double scalar) const;
+    GeomVector subtractScalar(double scalar) const;
+    GeomVector multiplyScalar(double scalar) const;
+    GeomVector divideScalar(double scalar) const;
 
-    point3D crossProduct(point3D v1, point3D v2,point3D v3 , point3D v4);
+    double getDistanceBetweenVectors(const GeomVector &other) const;
+    double getDistanceBetweenVectorAndPlane(const Plane &plane) const;
+    double getAngleBetweenVectors(const GeomVector &other) const;
+    double getAngleBetweenVectorAndPlane(const Plane &plane) const;
+    void angleBetweenVectorAndAxis() const;
 
-    point3D vectorAddition(point3D v1, point3D v2,point3D v3 , point3D v4);
-
-    double vectorMagnitude(point3D v1, point3D v2);
-
-    point3D vectorNormalized(point3D v1, point3D v2);
-
-    bool isEqual(point3D v1, point3D v2,point3D v3 , point3D v4);
-
-    point3D addScalar(point3D v1 , point3D v2 , double scalar);
-
-    point3D vectorScalarMultiplication(point3D v1, point3D v2 , double scalar);
-
-    double angleBetweenVectors(point3D v1, point3D v2,point3D v3 , point3D v4);
-
-    double distanceBetweenVectors(point3D v1, point3D v2,point3D v3 , point3D v4);
-
-    point3D subtractScalar(point3D v1 , point3D v2 , double scalar);
-
-    point3D vectorScalarDivision(point3D v1, point3D v2,point3D v3 , point3D v4 , double scalar);
-
-    double angleBetweenPlaneandVector(plane normal , point3D v1 , point3D v2 );
-
-    void directionCosines(point3D v1, point3D v2,point3D v3 , point3D v4);
-
-    double setLength(point3D v1 , point3D v2 , double lenght);
-
-    double vec1X;
-    double vec1Y;
-    double vec1Z;
-    double vec2X;
-    double vec2Y;
-    double vec2Z;
-
-private:
-    point3D mV1;
-    point3D mV2;
-    point3D mV3;
-    point3D mV4;
+    GeomVector multiplyMatrix(const Matrix &matrix) const;
+    GeomVector projectionOnVector(const GeomVector &otherVector) const;
+    GeomVector projectVectorOnPlane(const GeomVector &vector, const GeomVector &planeNormal) const;
+    void directionCosines() const;
 };

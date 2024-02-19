@@ -1,26 +1,18 @@
-#include "point3D.h"
-class plane 
+#pragma once
+#include "GeomVector.h"
+
+class Plane
 {
-    public:
-    plane();
-    ~plane();
+public:
+    Plane();
+    Plane(GeomVector&, Point3D &);
+    ~Plane();
 
-    plane(point3D point , point3D v1 ,point3D v2);
-
-    void sPoint(point3D mPoint);
-    void sVector1(point3D v1);
-    void sVectoV2(point3D v2);
-
-    point3D gPoint();
-    point3D gVector1();
-    point3D gVector2();
-
-    private:
-    point3D mPoint;
-    point3D mV1;
-    point3D mV2;
+    GeomVector getNormal() const;
+    Point3D getPointOnPlane() const;
 
 
-
-    
+private:
+    GeomVector mNormal;
+    Point3D mPointOnPlane;
 };
